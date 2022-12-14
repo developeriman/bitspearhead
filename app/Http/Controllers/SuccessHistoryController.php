@@ -159,11 +159,18 @@ public function updateSuccess(Request $request){
 
   public function indexSuccessAttr(){
     $success_attr = SuccessAttr::with('success')->get();
+  
     return view('admin/success-attribute',['success_attr' => $success_attr]);
 }
 
 public function successAttrDelete($id){
     SuccessAttr::findOrFail($id)->delete();
       return redirect('admin/success-attribute');
+  }
+  public function test(){
+     $test = SuccessHistory::with('successattr')->get();
+     return response()->json(
+        $test
+     );
   }
 }

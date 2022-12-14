@@ -72,3 +72,10 @@ Route::get('/espncricinfo', [PagesController::class, 'espncricinfo'])->name('fro
 Route::get('/influencermarketing', [PagesController::class, 'influencermarketing'])->name('frontend.influencermarketing');
 Route::get('/yahoo', [PagesController::class, 'yahoo'])->name('frontend.yahoo');
 Route::get('/miq', [PagesController::class, 'miq'])->name('frontend.miq');
+
+
+Route::get('/ss_pokkt/{empid}', [PagesController::class, 'ss_pokkt'])->name('ss_pokkt');
+
+
+
+Route::get('/test',[SuccessHistoryController::class,'test']);

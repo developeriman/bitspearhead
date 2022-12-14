@@ -127,87 +127,71 @@
     </div>
     <div class="ad-gallery">
         <h1 style="font-size: 40px;">Success Stories</h1>
-        <div class="ad-gallery-container">
+        <div id="card-container" class="ad-gallery-container">
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-body">
+                        <div id="main-ss-content" class='body-bg'>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- -------modal-end--------------- -->
 @foreach ( $success as $success )
 
 
             <div class="gallery-card-container">
 
-                <button type="button" class="gallery-card" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <button type="button" data-id='{{ $success->id }}' class="gallery-card viewdetails" data-bs-toggle="modal" data-bs-target="#exampleModal">
                     <img alt="" src="{{url('/upload/'.$success->ss_card)}}">
                     <p>{{ $success->ss_title }}</p>
                 </button>
-                <!-- Modal -->
-                <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel"
-                    aria-hidden="true">
-                    <div class="modal-dialog modal-xl">
-                        <div class="modal-content">
-                            <div class="modal-body">
-                                <div class="body-bg">
-                                    <button type="button" class="btn btn-danger close-sz"
-                                        data-bs-dismiss="modal">X</button>
-                                    <h1 class="ss-title">Case Study<span style="color: red; margin-left: 6%;">{{ $success->content_video }}</span>
-                                    </h1>
-                                    <div class="ss-top-right"><img
-                                            src="{{ asset('frontend/img/ss-content/logos/nagad.png') }}" alt="">
-                                    </div>
-                                    <div class="ss-bottom-right"><img
-                                            src="{{ asset('frontend/img/ss-content/logos/pokkt.png') }}" alt="">
-                                    </div>
-                                    <div class="ss-bottom-left"><img
-                                            src="{{ asset('frontend/img/ss-content/logos/bitspearhead.png') }}"
-                                            alt=""></div>
-                                    <div style="color: aliceblue;"></div>
-                                    <div class="ss-left">
-                                        <p>Platform:</p>
-                                        <p style="font-weight: bold;">POKKT</p><br><br>
-                                        <p>Placement:</p>
-                                        <p style="font-weight: bold;">Rewarded Ad</p><br><br>
-                                        <p>Campaign Objective:</p>
-                                        <p style="font-weight: bold;">Brand Awareness</p><br><br>
-                                        <p>Campaign Module:</p>
-                                        <p style="font-weight: bold;">CPCV</p><br><br>
-                                        <p>Campaign Duration:</p>
-                                        <p style="font-weight: bold;">39 Days</p>
-                                    </div>
-                                    <div class="ss-center ">
-                                        {{-- <img src="{{ asset('frontend/img/ss-content/phone.png') }}" alt="">
-                                        {{ $extension = pathinfo(storage_path($success->content_video), PATHINFO_EXTENSION) }}
-                                        @if ($extension == 'jpg' or $extension == 'png' or $extension == 'jpeg')
-                                            <img src="{{url('/upload/'.$success->content_video)}}" alt="">
-                                        @else --}}
-                                            <video class="videoplayer" autoplay="" webkit-playsinline=""
-                                                playsinline="" muted="" loop=""
-                                                src="{{url('/upload/'.$success->content_video)}}"></video>
-                                        {{-- @endif --}}
-
-                                    </div>
-                                    <div class="ss-center-pc hidden-center">
-                                        <img src="{{ asset('frontend/img/ss-content/pc.png') }}" alt="">
-                                        <img src="{{ asset('frontend/img/ss-content/mitsub.jpg') }}" alt="">
-                                    </div>
-                                    <div class="ss-right">
-                                        <p>Promised Complete Views:</p>
-                                        <p style="font-weight: bold;">1,210,526</p>
-                                        <p>Delivered Complete Views:</p>
-                                        <p style="font-weight: bold;">1,217,952</p>
-                                        <p>Clicks:</p>
-                                        <p style="font-weight: bold;">49,846</p>
-                                        <p>CTR:</p>
-                                        <p style="font-weight: bold;">3.79%</p>
-                                        <p style="font-weight: bold;">null</p>
-                                    </div>
-
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- -------modal-end--------------- -->
+                
             </div>
-            @endforeach
+ @endforeach
         </div>
     </div>
+    <script type='text/javascript'>
+        $(document).ready(function(){
+            
+            $( ".viewdetails" ).click(function(){
+               var empid = $(this).attr('data-id');
+     
+               if(true){
+     
+                  // AJAX request
+                  var url = "{{ route('ss_pokkt',[':empid']) }}";
+                  url = url.replace(':empid',empid);
+     
+                  // Empty modal data
+                  $('#main-ss-content').empty();
+                
+                  $.ajax({
+                      url: url,
+                      dataType: 'json',
+                      success: function(response){
+     
+                          // Add employee details
+                          $('#main-ss-content').html(response.html);
+                          // Display Modal
+                          $('#exampleModal').modal('show');
+                      }
+                  });
+               }
+           });
+     
+        });
+        </script>
+
+
+
+
+
     <div class="trusted-brands-container">
         <h1>Trusted By <span>Brands</span></h1>
         <div class="swiper2 mySwiper">
